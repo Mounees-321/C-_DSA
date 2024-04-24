@@ -115,32 +115,6 @@ int value()
 
 }
 
-/*void Delete(Node** head_ptr,int pos)
-{
-    if(*head_ptr==NULL)
-        cout<<"List is empty"<<endl;
-    
-    if(pos==1)
-    {
-        Node *temp=head_ptr;
-        *temp = (*head_ptr)->next;
-        delete *head_ptr;
-        return;
-    }
-
-    Node *temp=*head;
-    while(pos!=1)
-    {
-        temp = temp->next;
-        pos--;
-    }
-    Node *temp1 = *temp;
-    *temp = *(*temp->next)->next;
-
-    delete *temp1;
-
-
-}*/
 void Delete(Node** head_ptr, int pos)
 {
     if (*head_ptr == nullptr)
@@ -245,8 +219,6 @@ int main()
        break;
 
     }
-
-    
     }
     char ch;
     cout<<"\nDo you want to continue : (y/n):";
