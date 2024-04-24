@@ -117,20 +117,63 @@ int value()
 
 /*void Delete(Node** head_ptr,int pos)
 {
+    if(*head_ptr==NULL)
+        cout<<"List is empty"<<endl;
+    
+    if(pos==1)
+    {
+        Node *temp=head_ptr;
+        *temp = (*head_ptr)->next;
+        delete *head_ptr;
+        return;
+    }
 
-    Node *temp = *head_ptr;
+    Node *temp=*head;
     while(pos!=1)
     {
         temp = temp->next;
         pos--;
     }
-    Node *temp1 = temp;
-     temp1= (*(temp->next))->next;
+    Node *temp1 = *temp;
+    *temp = *(*temp->next)->next;
 
-    delete temp-next();
+    delete *temp1;
 
 
 }*/
+void Delete(Node** head_ptr, int pos)
+{
+    if (*head_ptr == nullptr)
+    {
+        cout << "List is empty" << endl;
+        return;
+    }
+
+    if (pos == 1)
+    {
+        Node* temp = *head_ptr;
+        *head_ptr = (*head_ptr)->next;
+        delete temp;
+        return;
+    }
+
+    Node* current = *head_ptr;
+    for (int i = 1; current != nullptr && i < pos - 1; i++)
+    {
+        current = current->next;
+    }
+
+    if (current == nullptr || current->next == nullptr)
+    {
+        cout << "Position out of range" << endl;
+        return;
+    }
+
+    Node* temp = current->next;
+    current->next = temp->next;
+    delete temp;
+}
+
 
 
 int main()
@@ -198,7 +241,7 @@ int main()
     {
         cout<<"Enter position to be delete : ";
         cin >> pos;
-       // Delete(&head,pos);
+        Delete(&head,pos);
        break;
 
     }
