@@ -186,7 +186,7 @@ int main()
     case 3:
     {
         val = value();
-        push_front(&head,val);
+        push_back(&head,val);
         break;
     }
 
