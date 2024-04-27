@@ -1,4 +1,4 @@
-Easy Level Problems on Linked List Data Structure
+/*Easy Level Problems on Linked List Data Structure
 
 Print the Middle of a given linked list
 Reverse a Linked List
@@ -53,4 +53,4 @@ Reverse a Linked List in groups of given size
 Merge k Sorted Linked Lists
 Flattening a Linked List
 Partition a linked list around a given value
-Clone a linked list with random pointers
+Clone a linked list with random pointers*/

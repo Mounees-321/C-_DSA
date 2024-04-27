@@ -138,8 +138,9 @@ bool emptylist(Node* temp)
         return 1;
     }
     return 0;
-}
+        
 
+}
 void forward_trv_show(Node* itr)
 {
     if(emptylist(itr))
