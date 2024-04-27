@@ -1,110 +1,114 @@
 #include<iostream>
 using namespace std;
-
 struct Node
 {
     int data;
-    Node* next;
+    Node *prev;
+    Node *next;
 
-    Node():data(0),next(nullptr){}
+    Node():data(0),prev(nullptr),next(nullptr){};
 };
 
-void push_front(Node** head_ptr,int value)
+int length(Node *head_ptr)
 {
-    Node *newnode = new Node;
-    newnode->data = value;
-    newnode->next = *head_ptr;
-    *head_ptr   = newnode;
+    int ct=0;
+    while(head_ptr!=NULL){
+        ct++;
+        head_ptr = head_ptr->next;
+    }
+    return ct;
 }
 
-void insert(Node** head_ptr,int value,int pos)
+void push_front(Node** head_ptr,Node** tail_ptr,int value)
 {
-    if(*head_ptr==NULL && pos>1)
-    {
-        cout<<"wrong entry ";
-        return;
-    }
     Node *newnode = new Node;
-    newnode->data = value;
-    if(pos==1)
-    {
-        newnode->next = *head_ptr;
-        *head_ptr   = newnode;
-        return;
-    }
+    newnode -> data = value;
+    newnode -> prev =nullptr;
     newnode->next = *head_ptr;
 
+    if(*head_ptr==NULL){
+        *tail_ptr = newnode;
+        *head_ptr = newnode;}
+    
+    else{
+    (*head_ptr)->prev = newnode;
+    *head_ptr = newnode;
+    }
+}
+
+void push_back(Node** head_ptr, Node** tail_ptr, int value) {
+    Node* new_node = new Node;
+    new_node->data = value;
+    new_node->next = nullptr;
+    new_node->prev = *tail_ptr;
+
+    if (*head_ptr == nullptr) {
+        *head_ptr = new_node;
+        *tail_ptr = new_node; }
+    
+    else {
+        (*tail_ptr)->next = new_node;
+        *tail_ptr = new_node; }  
+}
+
+void fw_insert(Node** head_ptr,int pos,int vl)
+{
+    Node *newnode = new Node;
+    newnode->data = vl;
     Node *temp = *head_ptr;
     pos--;
-
     while(pos!=1)
     {
         temp = temp->next;
         pos--;
     }
-    newnode->next = temp->next;
+    Node *temp2 = temp->next;
     temp->next = newnode;
+    newnode->prev = temp;
+    newnode->next = temp2;
+    temp2->prev = newnode;
+}
+void bw_insert(Node **tail_ptr,int pos,int vl)
+{
+    Node *new_node = new Node;
+    new_node -> data = vl;
+    
+    Node* temp = *tail_ptr;
+    while(pos!=1)
+    {
+        temp = temp->prev;
+        pos--;
+    }
+    Node *temp2 = temp->prev;
+    temp2->next = new_node;
+    new_node->next = temp;
+    new_node->prev = temp2;
+    temp->prev = new_node;
 
 }
 
-void push_back(Node** head_ptr,int value)
+void insert(Node** head_ptr,Node** tail_ptr,int pos,int value)
 {
-    Node *newnode = new Node;
-    newnode->data = value;
-    newnode->next = nullptr;
-    if(*head_ptr==NULL)
+    if(*head_ptr==nullptr||pos==1)
     {
-        *head_ptr = newnode;
+        push_front(head_ptr,tail_ptr,value);
+        return;
+    }
+    int len = length(*head_ptr);
+    if(pos==len+1)
+    {
+        push_back(head_ptr,tail_ptr,value);
+    }
+    else if(pos<=len/2)
+    {
+        fw_insert(head_ptr,pos,value);
     }
     else
     {
-        Node* temp = *head_ptr;
-        while(temp->next!=NULL)
-        {
-            temp = temp->next;
-        }    
-        temp->next = newnode;
-    }
-}
-void show(Node *itr)
-{
-    if(itr==NULL){
-        cout<<"Empty List";
-        return;
-    }
-    cout<<"\nElements in the List : ";
-    while(itr!=NULL)
-    {
-        cout<<itr->data<<"\t";
-        itr = itr->next;
+        bw_insert(tail_ptr,len-pos+1,value);
     }
 }
 
-void length(Node *head_ptr)
-{
-    int ct=1;
-    while(head_ptr->next!=NULL){
-        ct++;
-        head_ptr = head_ptr->next;
-    }
-    cout<<"\nNo. of items in list is : "<<ct<<endl;
-}
-
-int search(Node *head,int value)
-{
-    int pos=1;
-    while(head->data!=value)
-    {
-        head = head->next;
-        pos++;
-        if(head->next ==nullptr)
-        {
-
-            return head->data==value?pos:0;
-        }
-    }
-    return pos;
-}
 
 int value()
 {
@@ -112,21 +116,74 @@ int value()
     cout <<endl<< "Enter value to be insert : ";
     cin >> value;
     return value;
-
 }
 
-void Delete(Node** head_ptr, int pos)
+int search(Node *head,int value)
 {
-    if (*head_ptr == nullptr)
+    int pos=0;
+    while(head!=NULL&&head->data!=value)
     {
-        cout << "List is empty" << endl;
-        return;
+        head = head->next;
+        pos++;
     }
+    if(head==NULL)
+        return 0;
+    return pos;
+}
+
+bool emptylist(Node* temp)
+{
+    if(temp==NULL){
+        cout<<"Empty List";
+        return 1;
+    }
+    return 0;
+}
+
+void forward_trv_show(Node* itr)
+{
+    if(emptylist(itr))
+        return;
+
+    while(itr!=NULL)
+    {
+        cout<<itr->data<<"\t";
+        itr = itr->next;
+    }
+}
+
+void backward_show(Node* itr)
+{
+    if(emptylist(itr))
+        return;
+   
+    while(itr!=nullptr){
+        cout << itr->data << "\t";
+        itr = itr->prev;    
+    }  
+}
+
+void Delete(Node** head_ptr, int pos,Node **tail_ptr)
+{
+   if(emptylist(*head_ptr))
+        return;
 
     if (pos == 1)
     {
-        Node* temp = *head_ptr;
+        Node* temp =*head_ptr;
         *head_ptr = (*head_ptr)->next;
+        if(*head_ptr==NULL)
+            return;
+        (*head_ptr)->prev = nullptr;
+        delete temp;
+        return;
+    }
+
+    if(pos==length(*head_ptr))
+    {
+        Node* temp = *tail_ptr;
+        *tail_ptr = (*tail_ptr)->prev;
+        (*tail_ptr)->next = nullptr;
         delete temp;
         return;
     }
@@ -148,12 +205,12 @@ void Delete(Node** head_ptr, int pos)
     delete temp;
 }
 
-
-
 int main()
 {
-    Node *head = nullptr;
-    int val,pos,input;
+    Node *Head = nullptr;
+    Node *Tail = nullptr;
+    int val;
+     int pos,input;
 
     label:
     cout<<"What do you want to do with list: "<<endl;
@@ -172,21 +229,21 @@ int main()
         cout<<endl<<"Enter pos : ";
         cin >> pos;
         val = value();
-        insert(&head,val,pos); 
+        insert(&Head,&Tail,pos,val);
         break;   
     }
 
     case 2:
     {
         val = value();
-        push_front(&head,val);
+        push_front(&Head,&Tail,val);
         break;
     }
 
     case 3:
     {
         val = value();
-        push_back(&head,val);
+        push_back(&Head,&Tail,val);    
         break;
     }
 
@@ -194,33 +251,34 @@ int main()
     {
         cout<<"Enter value to be search : ";
         cin >> val;
-        int k= search(head,val);
+        int k= search(Head,val);
         k?(cout<<"\nElement found at : "<<k):cout<<"\nnot found";
         break;
     }
 
     case 5:
     {
-        length(head);
+        cout<<"\n Length of the list is : "<<length(Head);
         break;
     }
 
     case 6:
     {
-        show(head);
+        cout<<"\nElements in your lists are : ";
+         forward_trv_show(Head);
         break;
     }
     
     case 7:
     {
-        cout<<"Enter position to be delete : ";
+        cout<<"\nEnter position to be delete : ";
         cin >> pos;
-        Delete(&head,pos);
+        Delete(&Head,pos,&Tail);
        break;
-
     }
+    default:
+        cout<<"wrong entry";
 
-    
     }
     char ch;
     cout<<"\nDo you want to continue : (y/n):";

@@ -24,19 +24,15 @@ void insert(Node** head_ptr,int value,int pos)
         cout<<"wrong entry ";
         return;
     }
+   
+    else if(pos==1)
+    {
+        push_front(head_ptr,value);
+    }
     Node *newnode = new Node;
     newnode->data = value;
-    if(pos==1)
-    {
-         newnode->next = *head_ptr;
-        *head_ptr   = newnode;
-         return;
-    }
-    newnode->next = *head_ptr;
-
     Node *temp = *head_ptr;
     pos--;
-
     while(pos!=1)
     {
         temp = temp->next;
@@ -69,40 +65,37 @@ void push_back(Node** head_ptr,int value)
 void show(Node *itr)
 {
     if(itr==NULL){
-        cout<<"Empty List";
-        return;
+        cout<<"\nOops!,It's Empty List";
     }
-    cout<<"\nElements in the List : ";
+
+    else{
     while(itr!=NULL)
     {
         cout<<itr->data<<"\t";
         itr = itr->next;
-    }
+    }}
 }
 
-void length(Node *head_ptr)
+int length(Node *head_ptr)
 {
-    int ct=1;
-    while(head_ptr->next!=NULL){
+    int ct=0;
+    while(head_ptr!=NULL){
         ct++;
         head_ptr = head_ptr->next;
     }
-    cout<<"\nNo. of items in list is : "<<ct<<endl;
+    return ct;
 }
 
 int search(Node *head,int value)
 {
-    int pos=1;
-    while(head->data!=value)
+    int pos=0;
+    while(head!=NULL&&head->data!=value)
     {
         head = head->next;
         pos++;
-        if(head->next ==nullptr)
-        {
-
-            return head->data==value?pos:0;
-        }
     }
+    if(head==NULL)
+        return 0;
     return pos;
 }
 
@@ -117,21 +110,19 @@ int value()
 
 void Delete(Node** head_ptr, int pos)
 {
-    if (*head_ptr == nullptr)
-    {
+    if(*head_ptr == nullptr){
         cout << "List is empty" << endl;
         return;
     }
 
+    Node* current = *head_ptr;
     if (pos == 1)
     {
-        Node* temp = *head_ptr;
         *head_ptr = (*head_ptr)->next;
-        delete temp;
+        delete current;
         return;
     }
 
-    Node* current = *head_ptr;
     for (int i = 1; current != nullptr && i < pos - 1; i++)
     {
         current = current->next;
@@ -147,8 +138,6 @@ void Delete(Node** head_ptr, int pos)
     current->next = temp->next;
     delete temp;
 }
-
-
 
 int main()
 {
@@ -201,12 +190,13 @@ int main()
 
     case 5:
     {
-        length(head);
+        cout<<"\nNo. of items in list is : "<<length(head)<<endl;
         break;
     }
 
     case 6:
     {
+        cout<<"\nElements in the List : ";
         show(head);
         break;
     }
