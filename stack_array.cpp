@@ -62,10 +62,9 @@ int value()
     return val;
 }
 
-
 int main()
 {
-    //push,pop,top,size,isempty,sfull
+    //push,pop,top,size,isempty,isfull
     Stack mystack;
     int inp,val;
 

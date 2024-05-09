@@ -139,6 +139,49 @@ void Delete(Node** head_ptr, int pos)
     delete temp;
 }
 
+void reverse(Node **head)
+{
+  Node* temp = *head;
+  Node *prev_temp = nullptr,*temp2;
+  while(temp!=nullptr)
+  {
+    temp2 = temp->next;
+    temp->next = prev_temp;
+    prev_temp = temp;
+    temp = temp2;
+  }
+  *head = prev_temp;
+}
+
+Node *pos_reverse(Node *head, int k)
+    {
+        int p = k;
+        Node *temp = head , *new_head , *temp1,*prev_temp = nullptr;
+        while(p!=0)
+        {
+            temp1 = temp->next;
+            temp->next = prev_temp;
+            prev_temp = temp;
+            temp = temp1;
+            p--;
+        }
+        temp = temp1;
+        new_head = prev_temp;
+        prev_temp = nullptr;
+        while(temp!=NULL)
+        {
+            temp1 = temp->next;
+            temp->next = prev_temp;
+            prev_temp = temp;
+            temp = temp1;
+        }
+        
+        head->next = prev_temp;
+        return new_head;
+        
+        }
+    
+
 int main()
 {
     Node *head = nullptr;
@@ -153,6 +196,8 @@ int main()
     cout<<"5.length"<<endl;
     cout<<"6.Show"<<endl;
     cout<<"7.Delete"<<endl;
+    cout<<"8.Reverse"<<endl;
+    cout<<"9.pos_reverse"<<endl;
     cin >> input;
 
     switch(input){
@@ -209,6 +254,21 @@ int main()
        break;
 
     }
+    case 8:
+    {
+        reverse(&head);
+        break;
+    }
+    case 9:
+    {
+        int k;
+        cout<<"Enter k : ";
+        cin >> k;
+        head = pos_reverse(head,k);
+        break;
+    }
+    default :
+        cout<<"wrong entry";
     }
     char ch;
     cout<<"\nDo you want to continue : (y/n):";

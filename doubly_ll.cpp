@@ -162,6 +162,25 @@ void backward_show(Node* itr)
         cout << itr->data << "\t";
         itr = itr->prev;    
     }  
+    return;
+}
+
+void reverseDLL(Node **head_ptr,Node **tail_ptr)
+{
+        *tail_ptr = *head_ptr;
+        Node *temp = *head_ptr;;
+        Node *temp3;
+        while(temp!=NULL)
+        {
+            Node *temp2 = temp->next;
+            temp->next = temp->prev;
+            temp->prev = temp2;
+            temp3 = temp;
+            temp = temp2;
+        }
+        *head_ptr = temp3;
+        
+        
 }
 
 void Delete(Node** head_ptr, int pos,Node **tail_ptr)
@@ -222,6 +241,7 @@ int main()
     cout<<"5.length"<<endl;
     cout<<"6.Show"<<endl;
     cout<<"7.Delete"<<endl;
+    cout<<"8.reverse"<<endl;
     cin >> input;
 
     switch(input){
@@ -276,6 +296,11 @@ int main()
         cin >> pos;
         Delete(&Head,pos,&Tail);
        break;
+    }
+    case 8:
+    {
+        reverseDLL(&Head,&Tail);
+        break;
     }
     default:
         cout<<"wrong entry";
