@@ -19,6 +19,20 @@ stack<term> add(stack<term> p1, stack<term> p2) {
     stack<term> p;
     term temp;
     while(!p1.empty() || !p2.empty()) {
+        if(p1.empty()||p2.empty())
+        {
+            if(!p2.empty()){
+                p.push(p2.top());
+                p2.pop();
+                continue;}
+            else
+            {
+                p.push(p1.top());
+                p1.pop();
+                continue;
+            }
+
+        }
         if(p1.top().expo > p2.top().expo) {
             p.push(p1.top());
             p1.pop();
@@ -32,6 +46,7 @@ stack<term> add(stack<term> p1, stack<term> p2) {
             p1.pop();
             p2.pop();
         }
+
     }
 
     return p;    
