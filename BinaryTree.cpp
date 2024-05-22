@@ -6,10 +6,9 @@ struct  Node
     int data;
     Node *left;
     Node *right;
-    Node *prt;
     
-    Node():data(0),left(nullptr),right(nullptr),prt(nullptr){}
-    Node(int vl):data(vl),left(nullptr),prt(nullptr),right(nullptr){}
+    Node():data(0),left(nullptr),right(nullptr){}
+    Node(int vl):data(vl),left(nullptr),right(nullptr){}
 };
 
 Node* Root = nullptr;
@@ -19,7 +18,6 @@ Node* Insert(Node* root,int vl)//Level Order Insert
     if(!root)
     {
         root = new Node(vl);
-        root->prt = nullptr;
         return root;
     }
     queue<Node*> Myqueue;
@@ -32,7 +30,6 @@ Node* Insert(Node* root,int vl)//Level Order Insert
         if(!temp->left)
         {
             temp->left = new Node(vl);
-            (temp->left)->prt = temp;
             return 0;
         }
         else
@@ -43,7 +40,6 @@ Node* Insert(Node* root,int vl)//Level Order Insert
         if(!temp->right)
         {
             temp->right = new Node(vl);
-            (temp->right)->prt = temp;
             return 0;
         } 
         else
@@ -73,60 +69,6 @@ Node* search(int data,Node *root)//level order
     }
     return nullptr;
 }
-/*void Delete(int data)
-{
-    Node* MyNode = search(data, Root);
-    if (!MyNode)
-    {
-        cout << "Element not found";
-        return;
-    }
-    Node* Parent = MyNode->prt;
-
-    if (!MyNode->left && !MyNode->right)
-    {
-        if(!Parent){
-            Root = nullptr;
-            return;
-        }
-        (Parent->left == MyNode) ? (Parent->left = nullptr) : (Parent->right = nullptr);
-        delete MyNode;
-    }
-    else if (MyNode->left == nullptr && MyNode->right != nullptr)
-    {
-        if(!Parent)
-        {
-            Root = MyNode->right;
-        }
-        (Parent->left == MyNode) ? (Parent->left = MyNode->right) : (Parent->right = MyNode->right);
-        delete MyNode;
-    }
-    else if (MyNode->right == nullptr && MyNode->left != nullptr)
-    {
-        if(!Parent)
-        {
-            Root = MyNode->right;
-        }
-        (Parent->left == MyNode) ? (Parent->left = MyNode->left) : (Parent->right = MyNode->left);
-        delete MyNode;
-    }
-    else
-    {
-        Node* successor = InorderSuccessor(MyNode->right);
-        MyNode->data = successor->data;
-        Node* successorPrt = successor->prt;
-        (successorPrt->left == successor) ? (successorPrt->left = successor->right) : (successorPrt->right = successor->right);
-        delete successor;
-    }
-}*/
-
-/*void Traversal(Node *root)//Preorder traversal
-{
-    if(root){
-    printf("%d ",root->data);
-    Traversal(root->left);
-    Traversal(root->right);}
-}*/
 
 int minDepth(Node* Root){
      if(!Root)

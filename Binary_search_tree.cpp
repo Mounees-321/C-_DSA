@@ -10,29 +10,6 @@ struct Node
     Node(int vl):data(vl),left(nullptr),right(nullptr){}
 };
  Node *Root = nullptr;
-/*Node *Insert(Node* root , int vl)
-{
-    Node* newnode = new Node(vl);
-    Node *temp = root;
-    Node *y = NULL;
-    while(temp)
-    {
-        y = temp;
-        if(vl < temp->data)
-            temp = temp->left;
-        else
-            temp = temp->right;
-    }
-    newnode->prt = y;
-    if(!y)
-        return newnode;
-
-    if(vl<y->data)
-        y->left = newnode;
-    else
-        y->right = newnode;
-    return 0;
-}*/
 
 Node* Minimum(Node* root)
 {
@@ -41,16 +18,13 @@ Node* Minimum(Node* root)
 
     return Minimum(root->left);   
 }
-
 Node* Maximum(Node* root)
 {
     if(!root->right)
         return root;
 
-    return Maximum(root->right);
-    
+    return Maximum(root->right); 
 }
-
 int height(Node *Root)
 {
     if(!Root)
@@ -75,7 +49,6 @@ int MinDepth(Node *Root)
         return min(ld,rd);
     }
 }
-
 bool is_Balanced(Node *root)
 {
     if(!root)
@@ -100,6 +73,59 @@ Node* Insert(Node* root,int vl)
 
     return root;
 }
+Node* InorderSuccessor(Node* Root)
+{
+    if(Root->left)
+    {
+        return InorderSuccessor(Root->left);
+    }
+    return Root;
+}
+Node* delete_node(Node* root,int vl)
+{
+    if(!root)
+        return root;
+    
+    if(vl<root->data)
+    {   
+        root->left = delete_node(root->left,vl);
+        return root;
+    }
+    else if(vl > root->data)
+    {
+        root->right = delete_node(root->right,vl);
+        return root;
+    }
+
+    if(root->left==NULL)
+    {
+        Node* temp = root->right;
+        delete root;
+        return temp;
+    }
+    if(root->right==NULL)
+    {
+        Node* temp = root->left;
+        delete root;
+        return temp;
+    }
+    Node* successor = root->right;
+    Node* successor_prt = root;
+    while(successor->left!=NULL)
+    {
+        successor_prt= successor;
+        successor = successor->left;
+    }
+    root->data = successor->data;
+    
+    if(successor_prt->left==successor)
+        successor_prt->left = nullptr;
+    else if(successor_prt->right==successor)
+        successor_prt->right = nullptr;
+    
+    delete successor;
+    return root;
+}
 Node* Search(int data,Node* root)
 {
     if(!root){
@@ -112,69 +138,13 @@ Node* Search(int data,Node* root)
     else 
         return Search(data,root->left);
 }
-Node* InorderSuccessor(Node* Root)
-{
-    if(Root->left)
-    {
-        return InorderSuccessor(Root->left);
-    }
-    return Root;
-}
-/*void Delete(int data)
-{
-    Node* MyNode = Search(data, Root);
-    if (!MyNode)
-    {
-        cout << "Element not found";
-        return;
-    }
-    Node* Parent = MyNode->prt;
-
-    if (!MyNode->left && !MyNode->right)
-    {
-        if(!Parent){
-            Root = nullptr;
-            return;
-        }
-        (Parent->left == MyNode) ? (Parent->left = nullptr) : (Parent->right = nullptr);
-        delete MyNode;
-    }
-    else if (MyNode->left == nullptr && MyNode->right != nullptr)
-    {
-        if(!Parent)
-        {
-            Root = MyNode->right;
-        }
-        (Parent->left == MyNode) ? (Parent->left = MyNode->right) : (Parent->right = MyNode->right);
-        delete MyNode;
-    }
-    else if (MyNode->right == nullptr && MyNode->left != nullptr)
-    {
-        if(!Parent)
-        {
-            Root = MyNode->right;
-        }
-        (Parent->left == MyNode) ? (Parent->left = MyNode->left) : (Parent->right = MyNode->left);
-        delete MyNode;
-    }
-    else
-    {
-        Node* successor = InorderSuccessor(MyNode->right);
-        MyNode->data = successor->data;
-        Node* successorPrt = successor->prt;
-        (successorPrt->left == successor) ? (successorPrt->left = successor->right) : (successorPrt->right = successor->right);
-        delete successor;
-    }
-}*/
-
-
-
 void Traversal(Node *root)//inorder traversal
 {
-    if(root){
+    if(root!=NULL){
     Traversal(root->left);
     printf("%d ",root->data);
     Traversal(root->right);}
+    return;
 }
 void value(int &n)
 {
@@ -197,15 +167,15 @@ int main()
        
         cout<<"U R tree : ";
         Traversal(Root);
-       /* cout<<"\nMin :"<<Minimum(Root)->data;
+       cout<<"\nMin :"<<Minimum(Root)->data;
         cout<<"\nMAx :"<<Maximum(Root)->data;
-        cout<<"hEIGHT IS "<<height(Root);
-        cout<<"Min Depth : "<<MinDepth(Root);
-        cout<<"Is Balanced : "<<is_Balanced(Root);
+        cout<<"\nHEIGHT IS "<<height(Root);
+        cout<<"\nMin Depth : "<<MinDepth(Root);
+        cout<<"\nIs Balanced : "<<is_Balanced(Root);
         value(vl);
-        Delete(vl);
+        Root = delete_node(Root,vl);
         cout<<"U R tree : ";
-        Traversal(Root);*/
+        Traversal(Root);
 
 
         

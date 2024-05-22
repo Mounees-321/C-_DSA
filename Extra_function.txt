@@ -1,0 +1,80 @@
+//INSERT WITH PARENT
+/*Node *Insert(Node* root , int vl)
+{
+    Node* newnode = new Node(vl);
+    Node *temp = root;
+    Node *y = NULL;
+    while(temp)
+    {
+        y = temp;
+        if(vl < temp->data)
+            temp = temp->left;
+        else
+            temp = temp->right;
+    }
+    newnode->prt = y;
+    if(!y)
+        return newnode;
+
+    if(vl<y->data)
+        y->left = newnode;
+    else
+        y->right = newnode;
+    return 0;
+}*/
+
+//DELETE WITH PARENT
+/*void Delete(int data)
+{
+    Node* MyNode = Search(data, Root);
+    if (!MyNode)
+    {
+        cout << "Element not found";
+        return;
+    }
+    Node* Parent = MyNode->prt;
+
+    if (!MyNode->left && !MyNode->right)
+    {
+        if(!Parent){
+            Root = nullptr;
+            return;
+        }
+        (Parent->left == MyNode) ? (Parent->left = nullptr) : (Parent->right = nullptr);
+        delete MyNode;
+    }
+    else if (MyNode->left == nullptr && MyNode->right != nullptr)
+    {
+        if(!Parent)
+        {
+            Root = MyNode->right;
+        }
+        (Parent->left == MyNode) ? (Parent->left = MyNode->right) : (Parent->right = MyNode->right);
+        delete MyNode;
+    }
+    else if (MyNode->right == nullptr && MyNode->left != nullptr)
+    {
+        if(!Parent)
+        {
+            Root = MyNode->right;
+        }
+        (Parent->left == MyNode) ? (Parent->left = MyNode->left) : (Parent->right = MyNode->left);
+        delete MyNode;
+    }
+    else
+    {
+        Node* successor = InorderSuccessor(MyNode->right);
+        MyNode->data = successor->data;
+        Node* successorPrt = successor->prt;
+        (successorPrt->left == successor) ? (successorPrt->left = successor->right) : (successorPrt->right = successor->right);
+        delete successor;
+    }
+}*/
+
+/*void Traversal(Node *root)//Preorder traversal
+{
+    if(root){
+    printf("%d ",root->data);
+    Traversal(root->left);
+    Traversal(root->right);}
+}*/

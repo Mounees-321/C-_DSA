@@ -24,16 +24,6 @@ public:
             Created.push_back(NULL);
     }
 
-    void createNode(int arr[],int i)
-    {
-        if(Created[i]!=NULL)
-            return;
-            Node* newNode = newNode(i);
-        if(arr[i]==-1)
-            
-        }
-    }
-
 `   void CreateTree(int arr[])
     {
         for(int i = 0; i<n ; i++)
@@ -50,9 +40,9 @@ public:
                 {
                     Node* newNode = new Node(i);
                     if(prt->left==NULL)
-                        prt->left = newnode;
+                        prt->left = new node;
                     else
-                        prt->right = newnode;
+                        prt->right = new node;
                     j++;
                 }
             }
